@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_vertical_list_item">7dp</dimen>
+
+    <!--Font size-->
+    <dimen name="size_setting_header">14sp</dimen>
+    <dimen name="size_seting_optine">13sp</dimen>
+    <dimen name="size_command">12sp</dimen>
+</resources>

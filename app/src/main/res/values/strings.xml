@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Realtime Location System</string>
+    <string name="RTLS_CONFIG_PREFS">rtls_config</string>
+    <string name="PREF_SHOW_TAG">show_tag</string>
+    <string name="PREF_SHOW_ANCHOR">show_anchor</string>
+    <string name="PREF_SHOW_TAG_LABEL">show_tag_label</string>
+    <string name="PREF_SHOW_ANCHOR_LABEL">show_anchor_label</string>
+    <string name="PREF_SHOW_GRID">show_grid</string>
+    <string name="PREF_SHOW_AXIS">show_axis</string>
+    <string name="PREF_NUMBER_TRAILER">number_trailer</string>
+    <string name="NUMBER_TRAILER_DESCRIPTION">%d điểm</string>
+    <string name="SHOW_ALL_TRAIL_DESCRIPTION">Tất cả các điểm</string>
+    <string name="NO">Không</string>
+    <string name="ZERO">0</string>
+    <string name="ONE">1</string>
+    <string name="INF">∞</string>
+    <string name="PREF_ANCHOR_ID_X">pref_anchor_%d_x</string>
+    <string name="PREF_ANCHOR_ID_Y">pref_anchor_%d_y</string>
+    <string name="PREF_TARGET_X">pref_target_x</string>
+    <string name="PREF_TARGET_Y">pref_target_y</string>
+</resources>

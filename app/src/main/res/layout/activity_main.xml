@@ -1,0 +1,684 @@
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sliding_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    sothree:umanoDragView="@+id/dragView"
+    sothree:umanoOverlay="true"
+    sothree:umanoPanelHeight="80dp"
+    sothree:umanoParallaxOffset="100dp"
+    sothree:umanoScrollableView="@+id/listView"
+    sothree:umanoShadowHeight="0dp"
+    sothree:umanoAnchorPoint="0.4">
+
+    <!-- MAIN CONTENT -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.aselab.rtls.DescartesView
+            android:id="@+id/CanvasView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:keepScreenOn="true">
+        </com.aselab.rtls.DescartesView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_point"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:visibility="gone" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="6dp">
+
+                    <!-- Title, secondary and supporting text -->
+                    <TextView
+                        android:id="@+id/card_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:text="Point"
+                        android:textSize="16sp"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_gravity="center_horizontal"
+                        />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"/>
+                    <TextView
+                        android:id="@+id/point_coordinate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="8dp"
+                        android:textAlignment="center"
+                        android:layout_gravity="center_horizontal"
+                        android:text="x = 150 cm\ny = 200 cm"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="?android:attr/textColorSecondary"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"/>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_add_point"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        sothree:icon="@drawable/ic_baseline_add_24"
+                        android:text="Mục tiêu"
+                        style="?attr/borderlessButtonStyle"
+                        />
+                    <com.google.android.material.button.MaterialButton
+                        android:visibility="gone"
+                        android:id="@+id/btn_edit_point"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        sothree:icon="@drawable/ic_baseline_edit_location_24"
+                        android:text="Sửa"
+                        style="?attr/borderlessButtonStyle"
+                        />
+                    <com.google.android.material.button.MaterialButton
+                        android:visibility="gone"
+                        android:id="@+id/btn_delete_point"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        sothree:icon="@drawable/ic_baseline_delete_24"
+                        android:text="Xoá"
+                        style="@style/Widget.App.Button.Borderless"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <ImageButton
+            android:id="@+id/centerbutton"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:background="@drawable/oval2"
+            android:src="@drawable/ic_baseline_fullscreen_36"
+            android:layout_marginBottom="75dp"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="bottom|end" />
+        <ImageView
+            android:id="@+id/target_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_baseline_location_on_24"
+            android:visibility="gone"/>
+    </FrameLayout>
+
+    <!-- SLIDING LAYOUT -->
+    <LinearLayout
+        android:id="@+id/dragView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/round_background"
+        android:clickable="true"
+        android:focusable="false"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="25dp"
+            android:layout_height="3dp"
+            android:background="@drawable/vertical_bar"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="2dp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
+            <TextView
+                android:id="@+id/setting_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thiết lập"
+                android:textColor="@color/black"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:textSize="18sp" />
+            <Button
+                android:id="@+id/delete_all_tags"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:minWidth="0dp"
+                sothree:icon="@drawable/ic_baseline_delete_24"
+                sothree:iconPadding="0dp"
+                android:text="Xoá tag"
+                style="@style/Widget.App.Button.OutlinedButton"
+                />
+        </RelativeLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/card_background"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:theme="@style/TextCardTheme">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="@dimen/padding_vertical_list_item" >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:text="Lệnh điều khiển"
+                            android:textSize="@dimen/size_setting_header"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@id/current_command_text"
+                            android:text="Hiện tại: "
+                            android:textStyle="italic"
+                            android:textSize="@dimen/size_seting_optine" />
+                        <TextView
+                            android:id="@+id/current_command_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="STOP"
+                            android:textSize="@dimen/size_seting_optine" />
+                    </RelativeLayout>
+                    <Button
+                        android:id="@+id/btn_command_stop"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:textSize="@dimen/size_command"
+                        android:text="STOP"
+                        style="@style/Widget.App.Button" />
+                    <GridLayout
+                        android:id="@+id/grid_command"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:orientation="horizontal"
+                        android:columnCount="2"
+                        android:rowCount="3">
+                        <Button
+                            android:id="@+id/btn_command_line"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_marginRight="3dp"
+                            android:layout_gravity="fill_horizontal"
+                            android:textSize="@dimen/size_command"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:text="LINE" />
+                        <Button
+                            android:id="@+id/btn_command_rectangle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_marginLeft="3dp"
+                            android:layout_gravity="fill_horizontal"
+                            android:textSize="@dimen/size_command"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:text="RECTANGLE" />
+                        <Button
+                            android:id="@+id/btn_command_config"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_marginRight="3dp"
+                            android:layout_gravity="fill_horizontal"
+                            android:textSize="@dimen/size_command"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:text="CONFIG"/>
+                        <Button
+                            android:id="@+id/btn_command_target"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_marginLeft="3dp"
+                            android:layout_gravity="fill_horizontal"
+                            android:textSize="@dimen/size_command"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:text="TARGET" />
+                        <Button
+                            android:id="@+id/btn_command_target90"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_marginRight="3dp"
+                            android:layout_gravity="fill_horizontal"
+                            android:textSize="@dimen/size_command"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:text="TARGET90" />
+                    </GridLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/card_background"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:theme="@style/TextCardTheme">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="@dimen/padding_vertical_list_item"
+                        android:text="HIỂN THỊ"
+                        android:textSize="@dimen/size_setting_header"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="@dimen/padding_vertical_list_item"
+                        android:text="Hệ trục toạ độ"
+                        android:textSize="@dimen/size_setting_header"
+                        android:textStyle="bold" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="@dimen/padding_vertical_list_item"
+                        android:focusable="true">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:text="Trục toạ độ"
+                            android:textSize="@dimen/size_seting_optine" />
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/show_axis"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:checked="true" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="@dimen/padding_vertical_list_item"
+                        android:focusable="true">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:text="Lưới"
+                            android:textSize="@dimen/size_seting_optine" />
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/show_grid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:checked="true" />
+                    </RelativeLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="@dimen/padding_vertical_list_item"
+                        android:text="Tag"
+                        android:textSize="@dimen/size_setting_header"
+                        android:textStyle="bold" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="@dimen/padding_vertical_list_item"
+                        android:focusable="true">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:text="Hiện trên bản đồ"
+                            android:textSize="@dimen/size_seting_optine" />
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/tag_show_on_map"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:checked="true" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="@dimen/padding_vertical_list_item"
+                        android:focusable="true">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:text="Hiện nhãn trên bản đồ"
+                            android:textSize="@dimen/size_seting_optine" />
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/tag_label_show_on_map"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:checked="true" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/tag_trailer"
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:clickable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="@dimen/padding_vertical_list_item"
+                        android:focusable="true">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:text="Lưu vết"
+                            android:textSize="@dimen/size_seting_optine" />
+                        <TextView
+                            android:id="@+id/tag_trailer_description"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="24dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:text="Không"
+                            android:textSize="@dimen/size_seting_optine"
+                            android:textColor="@color/right_description"/>
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                            sothree:tint="@color/right_arrow_icon" />
+                    </RelativeLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="@dimen/padding_vertical_list_item"
+                        android:text="Anchor"
+                        android:textSize="@dimen/size_setting_header"
+                        android:textStyle="bold" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="@dimen/padding_vertical_list_item"
+                        android:focusable="true">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:text="Hiện trên bản đồ"
+                            android:textSize="@dimen/size_seting_optine" />
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/anchor_show_on_map"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:checked="true" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="@dimen/padding_vertical_list_item"
+                        android:focusable="true">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:text="Hiện nhãn trên bản đồ"
+                            android:textSize="@dimen/size_seting_optine" />
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/anchor_label_show_on_map"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:checked="true" />
+                    </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/anchors_setting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/card_background"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:theme="@style/TextCardTheme">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="@dimen/padding_vertical_list_item"
+                        android:text="Vị trí anchor"
+                        android:textSize="@dimen/size_setting_header"
+                        android:textStyle="bold" />
+                    <RelativeLayout
+                        android:id="@+id/anchor_1_coordinate"
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:clickable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="@dimen/padding_vertical_list_item"
+                        android:focusable="true">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:text="Anchor 1"
+                            android:textSize="@dimen/size_seting_optine" />
+                        <TextView
+                            android:id="@+id/anchor_1_coordinate_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="24dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:text="(0; 0) cm"
+                            android:textSize="@dimen/size_seting_optine"
+                            android:textColor="@color/right_description"/>
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                            sothree:tint="@color/right_arrow_icon" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/anchor_2_coordinate"
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:clickable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="@dimen/padding_vertical_list_item"
+                        android:focusable="true">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:text="Anchor 2"
+                            android:textSize="@dimen/size_seting_optine" />
+                        <TextView
+                            android:id="@+id/anchor_2_coordinate_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="24dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:text="(150; 0) cm"
+                            android:textSize="@dimen/size_seting_optine"
+                            android:textColor="@color/right_description"/>
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                            sothree:tint="@color/right_arrow_icon" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/anchor_3_coordinate"
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:clickable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="@dimen/padding_vertical_list_item"
+                        android:focusable="true">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:text="Anchor 3"
+                            android:textSize="@dimen/size_seting_optine" />
+                        <TextView
+                            android:id="@+id/anchor_3_coordinate_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="24dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:text="(150; 250) cm"
+                            android:textSize="@dimen/size_seting_optine"
+                            android:textColor="@color/right_description"/>
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                            sothree:tint="@color/right_arrow_icon" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/anchor_4_coordinate"
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:clickable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="@dimen/padding_vertical_list_item"
+                        android:focusable="true">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:text="Anchor 4"
+                            android:textSize="@dimen/size_seting_optine" />
+                        <TextView
+                            android:id="@+id/anchor_4_coordinate_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="24dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:text="(0; 250) cm"
+                            android:textSize="@dimen/size_seting_optine"
+                            android:textColor="@color/right_description"/>
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                            sothree:tint="@color/right_arrow_icon" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+<!--        <ScrollView-->
+<!--        android:id="@+id/sv"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_weight="1"-->
+<!--        >-->
+<!--        <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="The standard Lorem Ipsum passage, used since the 1500Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Section 1.10.32 of  written by Cicero in 45 t perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?1914 translation by H. RackhamBut I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete accouof the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."/>-->
+<!--        </ScrollView>-->
+    </LinearLayout>
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>
